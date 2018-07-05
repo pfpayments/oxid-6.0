@@ -1,0 +1,32 @@
+{
+	"name" : "postfinancecheckout/oxid-6.0",
+	"description" : "PFC PostFinanceCheckout Module",
+	"type" : "oxideshop-module",
+	"keywords" : [
+		"oxid",
+		"modules",
+		"eShop"
+	],
+	"homepage" : "https://www.customeb.com/",
+	"license" : [
+		"Apache-2.0"
+	],
+	"extra" : {
+		"oxideshop" : {
+			"target-directory" : "pfc/PostFinanceCheckout"
+		}
+	},
+	"autoload" : {
+		"psr-4" : {
+			"Pfc\\PostFinanceCheckout\\" : "../../../source/modules/pfc/PostFinanceCheckout"
+		}
+	},
+	"require" : {
+		"postfinancecheckout/sdk" : "1.1.7",
+		"monolog/monolog" : "^1.0"
+	},
+	"require-dev" : {
+		"oxid-esales/oxideshop-ce": "^6.0",
+		"oxid-esales/testing-library": "^3.2"
+	}
+}
