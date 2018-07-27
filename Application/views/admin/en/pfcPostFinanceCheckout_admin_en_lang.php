@@ -14,9 +14,9 @@ $aLang = array(
     'charset' => 'UTF-8',
     'pfcPostFinanceCheckout' => 'PFC PostFinanceCheckout',
 
-    'SHOP_MODULE_GROUP_pfcPostFinanceCheckoutSettings' => 'Shop settings',
-    'SHOP_MODULE_GROUP_pfcPostFinanceCheckoutGlobalSettings' => 'Global settings',
-    'SHOP_MODULE_pfcPostFinanceCheckoutAppKey' => 'App Key',
+	'SHOP_MODULE_GROUP_pfcPostFinanceCheckoutPostFinance CheckoutSettings' => 'PostFinance Checkout Settings',
+	'SHOP_MODULE_GROUP_pfcPostFinanceCheckoutShopSettings' => 'Shop Settings',
+	'SHOP_MODULE_pfcPostFinanceCheckoutAppKey' => 'Authentication Key',
     'SHOP_MODULE_pfcPostFinanceCheckoutUserId' => 'User Id',
     'SHOP_MODULE_pfcPostFinanceCheckoutSpaceId' => 'Space Id',
     'SHOP_MODULE_pfcPostFinanceCheckoutSpaceViewId' => 'Space View Id',
