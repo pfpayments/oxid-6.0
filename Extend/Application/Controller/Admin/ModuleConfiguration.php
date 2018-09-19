@@ -45,12 +45,14 @@ class ModuleConfiguration extends ModuleConfiguration_parent
         $this->_ModuleConfiguration_saveConfVars_parent();
         if ($this->getEditObjectId() == PostFinanceCheckoutModule::instance()->getId()) {
             try {
-                PostFinanceCheckoutModule::settings()->setGlobalParameters();
+            	PostFinanceCheckoutModule::settings()->setGlobalParameters();
+            	PostFinanceCheckoutModule::addMessage(PostFinanceCheckoutModule::instance()->translate("Settings saved successfully."));
                 // force api client refresh
                 PostFinanceCheckoutModule::instance()->getApiClient(true);
 
                 $paymentService = new PaymentService();
                 $paymentService->synchronize();
+                PostFinanceCheckoutModule::addMessage(PostFinanceCheckoutModule::instance()->translate("Payment methods successfully synchronized."));
 
                 $oldUrl = PostFinanceCheckoutModule::settings()->getWebhookUrl();
                 $newUrl = PostFinanceCheckoutModule::instance()->createWebhookUrl();
@@ -59,6 +61,7 @@ class ModuleConfiguration extends ModuleConfiguration_parent
                     $webhookService->uninstall(PostFinanceCheckoutModule::settings()->getSpaceId(), $oldUrl);;
                     $webhookService->install(PostFinanceCheckoutModule::settings()->getSpaceId(), $newUrl);
                     PostFinanceCheckoutModule::settings()->setWebhookUrl($newUrl);
+                    PostFinanceCheckoutModule::addMessage(PostFinanceCheckoutModule::instance()->translate("Webhook URL updated successfully."));
                 }
             } catch (\Exception $e) {
                 PostFinanceCheckoutModule::log(Logger::ERROR, "Unable to synchronize settings: {$e->getMessage()}.");

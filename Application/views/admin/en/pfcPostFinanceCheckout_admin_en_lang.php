@@ -13,21 +13,32 @@ $sLangName = 'English';
 $aLang = array(
     'charset' => 'UTF-8',
     'pfcPostFinanceCheckout' => 'PFC PostFinanceCheckout',
-
+	
 	'SHOP_MODULE_GROUP_pfcPostFinanceCheckoutPostFinance CheckoutSettings' => 'PostFinance Checkout Settings',
 	'SHOP_MODULE_GROUP_pfcPostFinanceCheckoutShopSettings' => 'Shop Settings',
+	'SHOP_MODULE_GROUP_pfcPostFinanceCheckoutSpaceViewSettings' => 'Space View Options',
 	'SHOP_MODULE_pfcPostFinanceCheckoutAppKey' => 'Authentication Key',
-    'SHOP_MODULE_pfcPostFinanceCheckoutUserId' => 'User Id',
+	'SHOP_MODULE_pfcPostFinanceCheckoutUserId' => 'User Id',
     'SHOP_MODULE_pfcPostFinanceCheckoutSpaceId' => 'Space Id',
-    'SHOP_MODULE_pfcPostFinanceCheckoutSpaceViewId' => 'Space View Id',
-    'SHOP_MODULE_pfcPostFinanceCheckoutEmailConfirm' => 'Email Confirm',
-    'SHOP_MODULE_pfcPostFinanceCheckoutInvoiceDoc' => 'Invoice Doc',
-    'SHOP_MODULE_pfcPostFinanceCheckoutPackingDoc' => 'Packing Doc',
+	'SHOP_MODULE_pfcPostFinanceCheckoutSpaceViewId' => 'Space View Id',
+	'SHOP_MODULE_pfcPostFinanceCheckoutEmailConfirm' => 'Email Confirm',
+	'SHOP_MODULE_pfcPostFinanceCheckoutInvoiceDoc' => 'Invoice Doc',
+	'SHOP_MODULE_pfcPostFinanceCheckoutPackingDoc' => 'Packing Doc',
     'SHOP_MODULE_pfcPostFinanceCheckoutLogLevel' => 'Log Level',
     'SHOP_MODULE_pfcPostFinanceCheckoutLogLevel_' => ' - ',
     'SHOP_MODULE_pfcPostFinanceCheckoutLogLevel_Error' => 'Error',
     'SHOP_MODULE_pfcPostFinanceCheckoutLogLevel_Debug' => 'Debug',
-    'SHOP_MODULE_pfcPostFinanceCheckoutLogLevel_Info' => 'Info',
+	'SHOP_MODULE_pfcPostFinanceCheckoutLogLevel_Info' => 'Info',
+	
+	'HELP_SHOP_MODULE_pfcPostFinanceCheckoutUserId' => 'The user requires full permission in the space the shop is linked to.',
+	'HELP_SHOP_MODULE_pfcPostFinanceCheckoutSpaceViewId' => 'The space view ID allows to control the styling of the payment form and the payment page within the space. In multi shop setups it allows to adapt the payment form to different styling per sub store without requiring a dedicated space.',
+	'HELP_SHOP_MODULE_pfcPostFinanceCheckoutEmailConfirm' => 'You may deactivate the OXID order confirmation email for PostFinance Checkout transactions.',
+	'HELP_SHOP_MODULE_pfcPostFinanceCheckoutInvoiceDoc' => 'You may allow customers to download invoices in their account area.',
+	'HELP_SHOP_MODULE_pfcPostFinanceCheckoutPackingDoc' => 'You may allow customers to download packing slips in their account area.',
+	
+	'pfc_postFinanceCheckout_Settings saved successfully.' => 'Settings saved successfully.',
+	'pfc_postFinanceCheckout_Payment methods successfully synchronized.' => 'Payment methods successfully synchronized.',
+	'pfc_postFinanceCheckout_Webhook URL updated.' => 'Webhook URL updated.',
 	//TODO remove uneeded
 	
 	'pfc_postFinanceCheckout_Download Invoice' => 'Download Invoice',

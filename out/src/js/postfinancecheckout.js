@@ -4,6 +4,8 @@
         methodConfigurationId: null,
         running: false,
         loaded: false,
+        initCalls: 0,
+        initMaxCalls: 10,
 
         initialized: function () {
             $('#PostFinanceCheckout-iframe-spinner').hide();
@@ -16,6 +18,12 @@
                 return false;
             });
             this.loaded = true;
+            $('[name=PostFinanceCheckout-iframe-loaded').attr('value', 'true');
+        },
+        
+        fallback: function() {
+        	$('#PostFinanceCheckout-payment-information').toggle();
+        	$('#button-confirm').removeAttr('disabled');
         },
         
         heightChanged: function () {
@@ -35,7 +43,8 @@
             $.getJSON('index.php?cl=order&fnc=pfcConfirm' + params, '', function (data, status, jqXHR) {
                 if (data.status) {
                     PostFinanceCheckout.handler.submit();
-                } else {
+                }
+                else {
                     PostFinanceCheckout.addError(data.message);
                     $('#button-confirm').removeAttr('disabled');
                 }
@@ -59,10 +68,15 @@
         },
 
         init: function (methodConfigurationId) {
+        	this.initCalls++;
             if (typeof window.IframeCheckoutHandler === 'undefined') {
-                setTimeout(function () {
-                    PostFinanceCheckout.init(methodConfigurationId);
-                }, 500);
+            	if(this.initCalls < this.initMaxCalls) {
+	                setTimeout(function () {
+	                    PostFinanceCheckout.init(methodConfigurationId);
+	                }, 500);
+            	} else {
+            		this.fallback();
+            	}
             } else {
                 PostFinanceCheckout.methodConfigurationId = methodConfigurationId;
                 PostFinanceCheckout.handler = window

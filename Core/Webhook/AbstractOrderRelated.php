@@ -52,6 +52,7 @@ abstract class AbstractOrderRelated extends AbstractWebhook
 	            
 	            \OxidEsales\Eshop\Core\DatabaseProvider::getDb()->commitTransaction();
 	        }catch(OptimisticLockingException $e){
+	        	PostFinanceCheckoutModule::log(Logger::WARNING, "Optimistic locking query: " . $e->getQueryString());
 	        	PostFinanceCheckoutModule::rollback();
 	        	if($i === self::OPTIMISTIC_RETRIES) {
 	        		throw $e;

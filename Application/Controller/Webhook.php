@@ -34,8 +34,9 @@ class Webhook extends \OxidEsales\Eshop\Core\Controller\BaseController
             'handleWebhookErrors'
         ));
         try {
-            $request = new Request(json_decode($requestBody));
-            $webhookModel = $webhookService->getWebhookEntityForId($request->getListenerEntityId());
+        	$request = new Request(json_decode($requestBody));
+        	$webhookModel = $webhookService->getWebhookEntityForId($request->getListenerEntityId());
+        	PostFinanceCheckoutModule::log(Logger::INFO, "Webhook process started.", [$webhookModel, $requestBody]);
             if ($webhookModel === null) {
                 PostFinanceCheckoutModule::log(Logger::ERROR, "Could not retrieve webhook model for listener entity id: {$request->getListenerEntityId()}.");
                 header("HTTP/1.1 500 Internal Server Error");

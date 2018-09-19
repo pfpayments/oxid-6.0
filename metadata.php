@@ -29,7 +29,7 @@ $aModule = array(
         'en' => 'PFC PostFinanceCheckout Module'
     ),
     'thumbnail' => 'out/pictures/picture.png',
-    'version' => '1.0.10',
+    'version' => '1.0.11',
     'author' => 'customweb GmbH',
     'url' => 'https://www.customweb.com',
     'email' => 'info@customweb.com',
@@ -64,8 +64,8 @@ $aModule = array(
     'blocks' => array(
         array(
             'template' => 'page/checkout/order.tpl',
-            'block' => 'checkout_order_btn_confirm_bottom',
-            'file' => 'Application/views/blocks/pfcPostFinanceCheckout_checkout_order_btn_confirm_bottom.tpl'
+            'block' => 'shippingAndPayment',
+            'file' => 'Application/views/blocks/pfcPostFinanceCheckout_checkout_order_shippingAndPayment.tpl'
         ),
         array(
             'template' => 'page/checkout/order.tpl',
@@ -109,13 +109,7 @@ $aModule = array(
 		array(
 			'group' => 'pfcPostFinanceCheckoutPostFinance CheckoutSettings',
 			'name' => 'pfcPostFinanceCheckoutAppKey',
-			'type' => 'str',
-			'value' => ''
-		),
-		array(
-			'group' => 'pfcPostFinanceCheckoutPostFinance CheckoutSettings',
-			'name' => 'pfcPostFinanceCheckoutSpaceViewId',
-			'type' => 'str',
+			'type' => 'password',
 			'value' => ''
 		),
 		array(
@@ -142,6 +136,12 @@ $aModule = array(
 			'type' => 'select',
 			'value' => 'Error',
 			'constrains' => 'Error|Info|Debug'
+		),
+		array(
+			'group' => 'pfcPostFinanceCheckoutSpaceViewSettings',
+			'name' => 'pfcPostFinanceCheckoutSpaceViewId',
+			'type' => 'str',
+			'value' => ''
 		)
     ),
     'events' => array(
