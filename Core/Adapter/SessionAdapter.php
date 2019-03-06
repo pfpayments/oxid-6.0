@@ -63,7 +63,7 @@ class SessionAdapter implements ITransactionServiceAdapter {
 		
 		if ($transaction->getOrderId()) {
 			$transactionPending->setFailedUrl(
-					PostFinanceCheckoutModule::getControllerUrl('order', 'pfcError', $transaction->getOrderId()));
+					PostFinanceCheckoutModule::getControllerUrl('order', 'pfcError', $transaction->getOrderId(), true));
 			$order = oxNew(\OxidEsales\Eshop\Application\Model\Order::class);
 			/* @var $order \OxidEsales\Eshop\Application\Model\Order */
 			if ($order->load($transaction->getOrderId())) {
@@ -89,7 +89,7 @@ class SessionAdapter implements ITransactionServiceAdapter {
 		$transaction->setBillingAddress($this->addressAdapter->getBillingAddressData());
 		$transaction->setShippingAddress($this->addressAdapter->getShippingAddressData());
 		$transaction->setLanguage(\OxidEsales\Eshop\Core\Registry::getLang()->getLanguageAbbr());
-		$transaction->setSuccessUrl(PostFinanceCheckoutModule::getControllerUrl('thankyou'));
-		$transaction->setFailedUrl(PostFinanceCheckoutModule::getControllerUrl('order', 'pfcError'));
+		$transaction->setSuccessUrl(PostFinanceCheckoutModule::getControllerUrl('thankyou', null, null, true));
+		$transaction->setFailedUrl(PostFinanceCheckoutModule::getControllerUrl('order', 'pfcError', null, true));
 	}
 }
