@@ -2,7 +2,7 @@
 /**
  * PostFinanceCheckout OXID
  *
- * This OXID module enables to process payments with PostFinanceCheckout (https://www.postfinance.ch/).
+ * This OXID module enables to process payments with PostFinanceCheckout (https://www.postfinance.ch/checkout/).
  *
  * @package Whitelabelshortcut\PostFinanceCheckout
  * @author customweb GmbH (http://www.customweb.com/)
