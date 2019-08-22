@@ -16,6 +16,9 @@ use PostFinanceCheckout\Sdk\Model\PaymentMethodConfiguration;
 use PostFinanceCheckout\Sdk\Service\PaymentMethodConfigurationService;
 use Pfc\PostFinanceCheckout\Core\PostFinanceCheckoutModule;
 use \PostFinanceCheckout\Sdk\Service\TransactionService as SdkTransactionService;
+use PostFinanceCheckout\Sdk\Model\EntityQueryFilter;
+use PostFinanceCheckout\Sdk\Model\EntityQueryFilterType;
+use PostFinanceCheckout\Sdk\Model\CriteriaOperator;
 
 /**
  * Class PaymentService
@@ -74,7 +77,7 @@ class PaymentService extends AbstractService {
 	 * @throws \PostFinanceCheckout\Sdk\ApiException
 	 */
 	public function synchronize(){
-		$paymentMethods = $this->getConfigurationService()->search(PostFinanceCheckoutModule::settings()->getSpaceId(), new EntityQuery());
+		$paymentMethods = $this->getConfigurationService()->search(PostFinanceCheckoutModule::settings()->getSpaceId(), $this->getQueryFilter('state', \PostFinanceCheckout\Sdk\Model\CreationEntityState::ACTIVE));
 		
 		$paymentList = oxNew(\OxidEsales\Eshop\Application\Model\PaymentList::class);
 		/* @var $paymentList \Pfc\PostFinanceCheckout\Extend\Application\Model\PaymentList */
@@ -93,7 +96,27 @@ class PaymentService extends AbstractService {
 			}
 		}
 	}
-
+	
+	private function getQueryFilter($fieldName, $fieldValue){
+		$query = new EntityQuery();
+		$filter = new EntityQueryFilter();
+		/**
+		 * @noinspection PhpParamsInspection
+		 */
+		$filter->setType(EntityQueryFilterType::LEAF);
+		/**
+		 * @noinspection PhpParamsInspection
+		 */
+		$filter->setOperator(CriteriaOperator::EQUALS);
+		$filter->setFieldName($fieldName);
+		/**
+		 * @noinspection PhpParamsInspection
+		 */
+		$filter->setValue($fieldValue);
+		$query->setFilter($filter);
+		return $query;
+	}
+	
 	/**
 	 *
 	 * @param $paymentId

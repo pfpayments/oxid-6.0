@@ -49,6 +49,7 @@ $aLang = array(
 	'pfc_postFinanceCheckout_Open in your PostFinance Checkout backend.' => 'Open in your PostFinance Checkout backend.',
 	'pfc_postFinanceCheckout_Open' => 'Open',
 	'pfc_postFinanceCheckout_PostFinance Checkout Link' => 'PostFinance Checkout Link',
+	'pfc_postFinanceCheckout_You must agree to the terms and conditions.' => 'You must agree to the terms and conditions.',
 	
 	// tpl translations
 	'pfc_postFinanceCheckout_Restock' => 'Restock',
