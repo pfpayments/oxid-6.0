@@ -14,7 +14,6 @@ use Monolog\Logger;
 use PostFinanceCheckout\Sdk\ApiException;
 use PostFinanceCheckout\Sdk\Model\CreationEntityState;
 use PostFinanceCheckout\Sdk\Model\CriteriaOperator;
-use PostFinanceCheckout\Sdk\Model\DeliveryIndication;
 use PostFinanceCheckout\Sdk\Model\DeliveryIndicationState;
 use PostFinanceCheckout\Sdk\Model\EntityQuery;
 use PostFinanceCheckout\Sdk\Model\EntityQueryFilter;

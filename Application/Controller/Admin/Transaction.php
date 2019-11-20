@@ -68,14 +68,19 @@ class Transaction extends \OxidEsales\Eshop\Application\Controller\Admin\AdminDe
      */
     public function complete()
     {
+    	PostFinanceCheckoutModule::log(Logger::DEBUG, "Start complete.");
         $oxid = $this->getEditObjectId();
         $transaction = oxNew(\Pfc\PostFinanceCheckout\Application\Model\Transaction::class);
         /* @var $transaction \Pfc\PostFinanceCheckout\Application\Model\Transaction */
         if ($transaction->loadByOrder($oxid)) {
+        	PostFinanceCheckoutModule::log(Logger::DEBUG, "Loaded by order.");
             try {
-                $transaction->updateLineItems();
-                $job = CompletionService::instance()->create($transaction);
-                CompletionService::instance()->send($job);
+            	$transaction->updateLineItems();
+            	PostFinanceCheckoutModule::log(Logger::DEBUG, "Updated items.");
+            	$job = CompletionService::instance()->create($transaction);
+            	PostFinanceCheckoutModule::log(Logger::DEBUG, "Created job.");
+            	CompletionService::instance()->send($job);
+            	PostFinanceCheckoutModule::log(Logger::DEBUG, "Sent job.");
                 if ($job->getState() === TransactionCompletionState::FAILED) {
                 	PostFinanceCheckoutModule::getUtilsView()->addErrorToDisplay($job->getFailureReason());
                 } else {
@@ -98,13 +103,18 @@ class Transaction extends \OxidEsales\Eshop\Application\Controller\Admin\AdminDe
      */
     public function void()
     {
+    	PostFinanceCheckoutModule::log(Logger::DEBUG, "Start void.");
         $oxid = $this->getEditObjectId();
         $transaction = oxNew(\Pfc\PostFinanceCheckout\Application\Model\Transaction::class);
         /* @var $transaction \Pfc\PostFinanceCheckout\Application\Model\Transaction */
         if ($transaction->loadByOrder($oxid)) {
-            try {
-                $job = VoidService::instance()->create($transaction);
-                VoidService::instance()->send($job);
+        	PostFinanceCheckoutModule::log(Logger::DEBUG, "Loaded by order.");
+        	try {
+        		$transaction->pull();
+        		$job = VoidService::instance()->create($transaction);
+        		PostFinanceCheckoutModule::log(Logger::DEBUG, "Created job.");
+        		VoidService::instance()->send($job);
+        		PostFinanceCheckoutModule::log(Logger::DEBUG, "Sent job.");
                 if ($job->getState() === TransactionVoidState::FAILED) {
                 	PostFinanceCheckoutModule::getUtilsView()->addErrorToDisplay($job->getFailureReason());
                 } else {

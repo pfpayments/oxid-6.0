@@ -459,10 +459,12 @@ class Transaction extends \OxidEsales\Eshop\Core\Model\BaseModel {
 	 * @throws \Exception
 	 */
 	public function pull(){
+		PostFinanceCheckoutModule::log(Logger::DEBUG, "Start transaction pull.");
 		if (!$this->getTransactionId()) {
 			throw new \Exception('Transaction id must be set to pull.');
 		}
 		$this->apply(TransactionService::instance()->read($this->getTransactionId(), $this->getSpaceId()));
+		PostFinanceCheckoutModule::log(Logger::DEBUG, "Transaction pull complete.");
 	}
 
 	/**
@@ -473,6 +475,7 @@ class Transaction extends \OxidEsales\Eshop\Core\Model\BaseModel {
 	 * @throws \Exception
 	 */
 	public function updateFromSession($confirm = false){
+		PostFinanceCheckoutModule::log(Logger::DEBUG, "Start update from session.");
 		$this->pull(); // ensure updateable
 		if ($this->getState() !== TransactionState::PENDING) {
 			throw new \Exception('Transaction not in state PENDING may no longer be updated:' . $this->getTransactionId());
@@ -481,6 +484,7 @@ class Transaction extends \OxidEsales\Eshop\Core\Model\BaseModel {
 		$adapter = new SessionAdapter($this->getSession());
 		$transaction = TransactionService::instance()->update($adapter->getUpdateData($this), $confirm);
 		$this->apply($transaction);
+		PostFinanceCheckoutModule::log(Logger::DEBUG, "Complete update from session.");
 		return $transaction;
 	}
 	
@@ -489,6 +493,7 @@ class Transaction extends \OxidEsales\Eshop\Core\Model\BaseModel {
 	}
 
 	public function updateLineItems(){
+		PostFinanceCheckoutModule::log(Logger::DEBUG, "Start update line items.");
 		$order = oxNew(\OxidEsales\Eshop\Application\Model\Order::class);
 		/* @var $order\OxidEsales\Eshop\Application\Model\Order */
 		if (!$order->load($this->getOrderId())) {
@@ -501,6 +506,7 @@ class Transaction extends \OxidEsales\Eshop\Core\Model\BaseModel {
 		$update->setTransactionId($this->getTransactionId());
 		TransactionService::instance()->updateLineItems($this->getSpaceId(), $update);
 		$this->pull();
+		PostFinanceCheckoutModule::log(Logger::DEBUG, "Complete update line items.");
 		return $this->getSdkTransaction();
 	}
 
@@ -511,11 +517,13 @@ class Transaction extends \OxidEsales\Eshop\Core\Model\BaseModel {
 	 * @throws \Exception
 	 */
 	public function create(){
+		PostFinanceCheckoutModule::log(Logger::DEBUG, "Start transaction create.");
 		$adapter = new SessionAdapter($this->getSession());
 		$transaction = TransactionService::instance()->create($adapter->getCreateData());
 		$this->dbVersion = 0;
 		$this->apply($transaction);
 		
+		PostFinanceCheckoutModule::log(Logger::DEBUG, "Complete transaction create.");
 		return $transaction;
 	}
 
@@ -525,11 +533,14 @@ class Transaction extends \OxidEsales\Eshop\Core\Model\BaseModel {
 	 * @throws \Exception
 	 */
 	public function save(){
+		PostFinanceCheckoutModule::log(Logger::DEBUG, "Start transaction save.");
 		// only save to db with order, otherwise save relevant ids to session.
 		if ($this->getOrderId()) {
+			PostFinanceCheckoutModule::log(Logger::DEBUG, "Saving to database.");
 			return parent::save();
 		}
 		else if ($this->getSession()->getUser()) {
+			PostFinanceCheckoutModule::log(Logger::DEBUG, "Saving to session.");
 			$this->getSession()->setVariable('PostFinanceCheckout_transaction_id', $this->getTransactionId());
 			$this->getSession()->setVariable('PostFinanceCheckout_space_id', $this->getSpaceId());
 			$this->getSession()->setVariable('PostFinanceCheckout_user_id', $this->getSession()->getUser()->getId());
@@ -583,6 +594,7 @@ class Transaction extends \OxidEsales\Eshop\Core\Model\BaseModel {
 		$updateQuery = "update {$coreTableName} set " . $this->_getUpdateFields() . " , pfcversion=pfcversion + 1 " .
 				 " where {$coreTableName}.oxid = " . $database->quote($this->getId()) .
 				 " and {$coreTableName}.pfcversion = {$dbVersion}";
+		PostFinanceCheckoutModule::log(Logger::DEBUG, "Updating  transaction with query [$updateQuery]");
 		
 		$this->beforeUpdate();
 		$affected = \OxidEsales\Eshop\Core\DatabaseProvider::getDb()->execute($updateQuery);
