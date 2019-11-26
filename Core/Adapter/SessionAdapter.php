@@ -51,6 +51,7 @@ class SessionAdapter implements ITransactionServiceAdapter {
 			$transactionCreate->setDeviceSessionIdentifier($_COOKIE['PostFinanceCheckout_device_id']);
 		}
 		$transactionCreate->setAutoConfirmationEnabled(false);
+		$transactionCreate->setChargeRetryEnabled(false);
 		$this->applyAbstractTransactionData($transactionCreate);
 		return $transactionCreate;
 	}
