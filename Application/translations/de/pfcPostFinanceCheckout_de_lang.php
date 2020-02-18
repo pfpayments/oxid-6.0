@@ -50,6 +50,8 @@ $aLang = array(
 	'pfc_postFinanceCheckout_Open' => 'Öffnen',
 	'pfc_postFinanceCheckout_PostFinance Checkout Link' => 'PostFinance Checkout Link',
 	'pfc_postFinanceCheckout_You must agree to the terms and conditions.' => 'Sie müssen den AGBs und Datenschutzvereinbarung zustimmen.',
+	'pfc_postFinanceCheckout_Rounding Adjustment' => 'Rundungsbetrag',
+	'pfc_postFinanceCheckout_Totals mismatch, please contact merchant or use another payment method.' => 'Fehler bei Betragsberechnung. Bitte kontaktieren Sie den Händler oder wählen Sie eine andere Zahlart.',
 	
 	// tpl translations
 	'pfc_postFinanceCheckout_Restock' => 'Lagerbestand wiederherstellen',

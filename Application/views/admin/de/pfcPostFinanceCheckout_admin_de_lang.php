@@ -26,17 +26,20 @@ $aLang = array(
     'SHOP_MODULE_pfcPostFinanceCheckoutEmailConfirm' => 'Email Bestätigung',
     'SHOP_MODULE_pfcPostFinanceCheckoutInvoiceDoc' => 'Rechnung',
     'SHOP_MODULE_pfcPostFinanceCheckoutPackingDoc' => 'Lieferschein',
+	'SHOP_MODULE_pfcPostFinanceCheckoutEnforceConsistency' => 'Konsistenz sicherstellen',
     'SHOP_MODULE_pfcPostFinanceCheckoutLogLevel' => 'Log Level',
     'SHOP_MODULE_pfcPostFinanceCheckoutLogLevel_' => ' - ',
     'SHOP_MODULE_pfcPostFinanceCheckoutLogLevel_Error' => 'Error',
     'SHOP_MODULE_pfcPostFinanceCheckoutLogLevel_Debug' => 'Debug',
     'SHOP_MODULE_pfcPostFinanceCheckoutLogLevel_Info' => 'Info',
 	
+	
 	'HELP_SHOP_MODULE_pfcPostFinanceCheckoutUserId' => 'Der Benutzer benötigt volle Berechtigungen auf dem verbundenen space.',
 	'HELP_SHOP_MODULE_pfcPostFinanceCheckoutSpaceViewId' => 'Die Space View ID lässt das Gestalten der Zahlungsformulare und -seiten innerhalb eines Spaces. Dies kann u.A. für Multishopsysteme die unterschiedliche Aussehen haben sollten verwendet werden.',	'HELP_SHOP_MODULE_pfcPostFinanceCheckoutEmailConfirm' => 'You may deactivate the OXID order confirmation email for PostFinance Checkout transactions.',
 	'HELP_SHOP_MODULE_pfcPostFinanceCheckoutInvoiceDoc' => 'Sie können ihren Kunden erlauben Rechnungen für Ihre Bestellungen im Frontend-Bereich herunterzuladen.',
 	'HELP_SHOP_MODULE_pfcPostFinanceCheckoutPackingDoc' => 'Sie können ihren Kunden erlauben Lieferscheine für Ihre Bestellungen im Frontend-Bereich herunterzuladen.',
 	'HELP_SHOP_MODULE_pfcPostFinanceCheckoutEmailConfirm' => 'Sie können OXID Bestellbestätigungen für PostFinance Checkout Transaktionen unterbinden.',
+	'HELP_SHOP_MODULE_pfcPostFinanceCheckoutEnforceConsistency' => 'Erfordere, dass die Einzelposten der Transaktion denen der Bestellung in Magento entsprechen. Dies kann dazu führen, dass die Zahlungsmethoden von PostFinance Checkout dem Kunden in bestimmten Fällen nicht zur Verfügung stehen. Im Gegenzug wird sichergestellt, dass nur korrekte Daten an PostFinance Checkout übertragen werden.',
 	
 	'pfc_postFinanceCheckout_Settings saved successfully.' => 'Die Einstellungen wurden erfolgreich gespeichert.',
 	'pfc_postFinanceCheckout_Payment methods successfully synchronized.' => 'Die Zahlarten wurden synchronisiert.',

@@ -29,7 +29,7 @@ $aModule = array(
         'en' => 'PFC PostFinanceCheckout Module'
     ),
     'thumbnail' => 'out/pictures/picture.png',
-    'version' => '1.0.19',
+    'version' => '1.0.20',
     'author' => 'customweb GmbH',
     'url' => 'https://www.customweb.com',
     'email' => 'info@customweb.com',
@@ -115,6 +115,12 @@ $aModule = array(
 		array(
 			'group' => 'pfcPostFinanceCheckoutShopSettings',
 			'name' => 'pfcPostFinanceCheckoutEmailConfirm',
+			'type' => 'bool',
+			'value' => true
+		),
+		array(
+			'group' => 'pfcPostFinanceCheckoutShopSettings',
+			'name' => 'pfcPostFinanceCheckoutEnforceConsistency',
 			'type' => 'bool',
 			'value' => true
 		),

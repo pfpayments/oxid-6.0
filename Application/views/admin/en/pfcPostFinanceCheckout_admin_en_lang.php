@@ -24,6 +24,7 @@ $aLang = array(
 	'SHOP_MODULE_pfcPostFinanceCheckoutEmailConfirm' => 'Email Confirm',
 	'SHOP_MODULE_pfcPostFinanceCheckoutInvoiceDoc' => 'Invoice Doc',
 	'SHOP_MODULE_pfcPostFinanceCheckoutPackingDoc' => 'Packing Doc',
+	'SHOP_MODULE_pfcPostFinanceCheckoutEnforceConsistency' => 'Enforce consistency',
     'SHOP_MODULE_pfcPostFinanceCheckoutLogLevel' => 'Log Level',
     'SHOP_MODULE_pfcPostFinanceCheckoutLogLevel_' => ' - ',
     'SHOP_MODULE_pfcPostFinanceCheckoutLogLevel_Error' => 'Error',
@@ -35,6 +36,7 @@ $aLang = array(
 	'HELP_SHOP_MODULE_pfcPostFinanceCheckoutEmailConfirm' => 'You may deactivate the OXID order confirmation email for PostFinance Checkout transactions.',
 	'HELP_SHOP_MODULE_pfcPostFinanceCheckoutInvoiceDoc' => 'You may allow customers to download invoices in their account area.',
 	'HELP_SHOP_MODULE_pfcPostFinanceCheckoutPackingDoc' => 'You may allow customers to download packing slips in their account area.',
+	'HELP_SHOP_MODULE_pfcPostFinanceCheckoutEnforceConsistency' => 'Require that the line items of the transaction correspond to those of the purchase order in Magento. This may result in the PostFinance Checkout payment methods not being available to the customer in certain cases. In return, it is ensured that only correct data is transmitted to PostFinance Checkout.',
 	
 	'pfc_postFinanceCheckout_Settings saved successfully.' => 'Settings saved successfully.',
 	'pfc_postFinanceCheckout_Payment methods successfully synchronized.' => 'Payment methods successfully synchronized.',
