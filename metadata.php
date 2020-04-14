@@ -29,7 +29,7 @@ $aModule = array(
         'en' => 'PFC PostFinanceCheckout Module'
     ),
     'thumbnail' => 'out/pictures/picture.png',
-    'version' => '1.0.20',
+    'version' => '1.0.21',
     'author' => 'customweb GmbH',
     'url' => 'https://www.customweb.com',
     'email' => 'info@customweb.com',
@@ -141,7 +141,7 @@ $aModule = array(
 			'name' => 'pfcPostFinanceCheckoutLogLevel',
 			'type' => 'select',
 			'value' => 'Error',
-			'constrains' => 'Error|Info|Debug'
+			'constraints' => 'Error|Info|Debug'
 		),
 		array(
 			'group' => 'pfcPostFinanceCheckoutSpaceViewSettings',
@@ -153,16 +153,5 @@ $aModule = array(
     'events' => array(
         'onActivate' => Pfc\PostFinanceCheckout\Core\PostFinanceCheckoutModule::class . '::onActivate',
         'onDeactivate' => Pfc\PostFinanceCheckout\Core\PostFinanceCheckoutModule::class . '::onDeactivate'
-    ),
-    'transaction_states' => array(
-        'POSTFINANCECHECKOUT_' . \PostFinanceCheckout\Sdk\Model\TransactionState::DECLINE,
-        'POSTFINANCECHECKOUT_' . \PostFinanceCheckout\Sdk\Model\TransactionState::FULFILL,
-        'POSTFINANCECHECKOUT_' . \PostFinanceCheckout\Sdk\Model\TransactionState::COMPLETED,
-        'POSTFINANCECHECKOUT_' . \PostFinanceCheckout\Sdk\Model\TransactionState::PENDING,
-        'POSTFINANCECHECKOUT_' . \PostFinanceCheckout\Sdk\Model\TransactionState::FAILED,
-        'POSTFINANCECHECKOUT_' . \PostFinanceCheckout\Sdk\Model\TransactionState::AUTHORIZED,
-        'POSTFINANCECHECKOUT_' . \PostFinanceCheckout\Sdk\Model\TransactionState::CONFIRMED,
-        'POSTFINANCECHECKOUT_' . \PostFinanceCheckout\Sdk\Model\TransactionState::VOIDED,
-        'POSTFINANCECHECKOUT_' . \PostFinanceCheckout\Sdk\Model\TransactionState::PROCESSING
     )
 );

@@ -11,7 +11,7 @@
  * PostFinanceCheckout
  *
  * This module allows you to interact with the PostFinanceCheckout payment service using OXID eshop.
- * Using this module requires a PostFinanceCheckout account (https://www.postfinance-checkout.ch/user/signup)
+ * Using this module requires a PostFinanceCheckout account (https://checkout.postfinance.ch/user/signup)
  *
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
