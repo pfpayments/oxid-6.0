@@ -22,7 +22,7 @@
 		}
 	},
 	"require" : {
-		"postfinancecheckout/sdk" : "2.0.17",
+		"postfinancecheckout/sdk" : "2.1.0",
 		"monolog/monolog" : "^1.0"
 	},
 	"require-dev" : {
