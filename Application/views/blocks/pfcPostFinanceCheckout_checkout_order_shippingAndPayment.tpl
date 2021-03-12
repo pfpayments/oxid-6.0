@@ -22,6 +22,6 @@ jQuery().ready(initPostFinanceCheckoutIframe);
 [{/capture}]
 [{oxscript add=$PostFinanceCheckoutInitScript priority=10}]
 [{oxscript include=$oView->getPostFinanceCheckoutJavascriptUrl() priority=8}]
-[{oxscript include=$oViewConf->getModuleUrl("pfcPostFinanceCheckout", "out/src/js/postFinanceCheckout.js") priority=9}]
+[{oxscript include=$oViewConf->getModuleUrl("pfcPostFinanceCheckout", "out/src/js/postfinancecheckout.js") priority=9}]
 [{oxstyle include=$oViewConf->getModuleUrl("pfcPostFinanceCheckout", "out/src/css/spinner.css")}]
 [{/if}]
