@@ -1,6 +1,8 @@
+
+
 # OXID 6.X
 
-v1.0.26, 2021-3
+v1.0.27, 2021-7
 
 This repository contains the OXID  PostFinance Checkout payment module that enables the shop to process payments with [PostFinance Checkout](https://www.postfinance.ch/checkout).
 
@@ -17,8 +19,8 @@ Support queries can be issued on the [PostFinance Checkout support site](https:/
 
 ## Documentation
 
-* [English](https://plugin-documentation.postfinance-checkout.ch/pfpayments/oxid-6.0/1.0.26/docs/en/documentation.html)
+* [English](https://plugin-documentation.postfinance-checkout.ch/pfpayments/oxid-6.0/1.0.27/docs/en/documentation.html)
 
 ## License
 
-Please see the [license file](https://github.com/pfpayments/oxid-6.0/blob/1.0.26/LICENSE) for more information.
+Please see the [license file](https://github.com/pfpayments/oxid-6.0/blob/1.0.27/LICENSE) for more information.
