@@ -80,14 +80,10 @@ class Order extends Order_parent {
 					"Attempted to call " . __METHOD__ . " on non-PostFinanceCheckout order {$this->getId()}, skipping.");
 			return;
 		}
-		$basket = $this->getPostFinanceCheckoutTransaction()->getTempBasket();
+		$basket = $this->getPostFinanceCheckoutBasket();
 		$basket->onUpdate();
 		$basket->calculateBasket();
 		$res = $this->_sendOrderByEmail($this->getOrderUser(), $basket, $this->getPaymentType());
-		if ($res === self::ORDER_STATE_OK) {
-			$this->getPostFinanceCheckoutTransaction()->setTempBasket(null);
-			$this->getPostFinanceCheckoutTransaction()->save();
-		}
 	}
 
 	public function setPostFinanceCheckoutPaid(){
