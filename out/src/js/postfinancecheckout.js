@@ -27,9 +27,12 @@
         },
         
         heightChanged: function () {
-        	if(this.loaded && $('#PostFinanceCheckout-iframe-container > iframe').height() == 0) {
-        		$('#PostFinanceCheckout-iframe-container').parent().parent().hide();
-        	}
+            const self = this;
+            setTimeout(function () {
+                if(self.loaded && $('#PostFinanceCheckout-iframe-container > iframe').height() == 0) {
+                    $('#PostFinanceCheckout-iframe-container').parent().parent().hide();
+                }
+            }, 500);
         },
         
         getAgbParameter: function() {
