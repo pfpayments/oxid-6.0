@@ -158,7 +158,7 @@ class Order extends Order_parent {
 			WHERE 
 				oxorderid = '{$orderId}' AND
 				oxuserid = '{$userId}'";
-        PostFinanceCheckoutModule::log(Logger::ERROR, "query {$query}.");
+		PostFinanceCheckoutModule::log(Logger::ERROR, "query {$query}.");
 		\OxidEsales\Eshop\Core\DatabaseProvider::getDb()->execute($query);
 	}
 
