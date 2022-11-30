@@ -18,6 +18,7 @@ use \PostFinanceCheckout\Sdk\ApiClient;
 use PostFinanceCheckout\Sdk\Model\TransactionState;
 use Pfc\PostFinanceCheckout\Core\Provider\Language as LanguageProvider;
 use Pfc\PostFinanceCheckout\Application\Model\Transaction;
+use OxidEsales\EshopCommunity\Core\ShopVersion;
 
 /**
  * Class PostFinanceCheckoutModule
@@ -27,6 +28,9 @@ use Pfc\PostFinanceCheckout\Application\Model\Transaction;
  */
 class PostFinanceCheckoutModule extends \OxidEsales\Eshop\Core\Module\Module
 {
+    const SHOP_SYSTEM = 'x-meta-shop-system';
+    const SHOP_SYSTEM_VERSION = 'x-meta-shop-system-version';
+    const SHOP_SYSTEM_AND_VERSION = 'x-meta-shop-system-and-version';
     const FALLBACK_LANGUAGE = 'en-US';
     const PAYMENT_PREFIX = 'oxidpfc';
     /**
@@ -308,6 +312,9 @@ class PostFinanceCheckoutModule extends \OxidEsales\Eshop\Core\Module\Module
         if ($this->apiClient === null || $refresh) {
             $this->apiClient = new ApiClient($this->getSettings()->getUserId(), $this->getSettings()->getAppKey());
             $this->apiClient->setBasePath($this->getSettings()->getBaseUrl() . '/api');
+            foreach (self::getDefaultHeaderData() as $key => $value) {
+                $this->apiClient->addDefaultHeader($key, $value);
+            }
             if ($this->getSettings()->isLogCommunications()) {
                 self::log(Logger::DEBUG, 'Enabling logging on ApiClient.');
                 $this->apiClient->enableDebugging();
@@ -529,5 +536,20 @@ class PostFinanceCheckoutModule extends \OxidEsales\Eshop\Core\Module\Module
         } catch (\Exception $e) {
             PostFinanceCheckoutModule::log(Logger::ERROR, "UNABLE TO ROLLBACK: {$e->getMessage()} - {$e->getTraceAsString()}.");
         }
+    }
+	
+	
+    /**
+     * @return array
+     */
+    protected static function getDefaultHeaderData()
+	{
+        $shop_version = ShopVersion::getVersion();
+        [$major_version, $minor_version, $_] = explode('.', $shop_version, 3);
+        return [
+            self::SHOP_SYSTEM             => 'oxid',
+            self::SHOP_SYSTEM_VERSION     => $shop_version,
+            self::SHOP_SYSTEM_AND_VERSION => 'oxid-' . $major_version . '.' . $minor_version,
+        ];
     }
 }
