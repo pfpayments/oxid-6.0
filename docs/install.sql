@@ -83,4 +83,5 @@ CREATE TABLE IF NOT EXISTS `pfcPostFinanceCheckout_alert` (
 
 INSERT INTO `pfcPostFinanceCheckout_alert` (`PFCKEY`, `PFCFUNC`, `PFCTARGET`, `PFCCOUNT`) VALUES ('manual_task', 'manualtask', '_parent', 0);
 
+SET SQL_MODE='ALLOW_INVALID_DATES';
 CREATE INDEX idx_pfc_oxorder_oxtransstatus ON `oxorder` (`OXTRANSSTATUS`);
