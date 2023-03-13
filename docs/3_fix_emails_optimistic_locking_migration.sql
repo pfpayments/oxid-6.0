@@ -1,0 +1,1 @@
+ALTER TABLE `pfcPostFinanceCheckout_transaction` ADD `PFCEMAILSENT` bool DEFAULT '0';

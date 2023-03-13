@@ -83,7 +83,42 @@ class Order extends Order_parent {
 		$basket = $this->getPostFinanceCheckoutBasket();
 		$basket->onUpdate();
 		$basket->calculateBasket();
-		$res = $this->_sendOrderByEmail($this->getOrderUser(), $basket, $this->getPaymentType());
+
+		if ($this->checkPostFinanceCheckoutEmailSent()) {
+			$res = $this->_sendOrderByEmail($this->getOrderUser(), $basket, $this->getPaymentType());
+			$this->markPostFinanceCheckoutEmailAsSent();
+			PostFinanceCheckoutModule::log(Logger::DEBUG, "Confirmation email was sent {$this->getId()}.");
+		}
+	}
+
+	/**
+	 * Check if the email was sent when the transaction state is updated to authorized to avoid duplicate emails.
+	 * Return true if the email hasn't been emailed yet
+	 *
+	 * @return bool
+	 */
+	public function checkPostFinanceCheckoutEmailSent(){
+		$currentState = substr($this->getFieldData('OXTRANSSTATUS'), strlen('POSTFINANCECHECKOUT_'));
+		$transaction = $this->getPostFinanceCheckoutTransaction();
+
+		if ($currentState === TransactionState::AUTHORIZED && !$transaction->getEmailSent()) {
+			return true;
+		}
+
+		$sent = $transaction->getEmailSent() ? 'yes' : 'no';
+		PostFinanceCheckoutModule::log(Logger::DEBUG,
+			"Attempted to send an email on order {$this->getId()} with current state {$currentState}, was sent? {$sent}.");
+
+		return false;
+	}
+
+	/**
+	 * Marks as sent when the transaction state is updated to authorized only the first time.
+	 */
+	public function markPostFinanceCheckoutEmailAsSent(){
+		$transaction = $this->getPostFinanceCheckoutTransaction();
+		$transaction->markEmailAsSent();
+		$transaction->save();
 	}
 
 	public function setPostFinanceCheckoutPaid(){

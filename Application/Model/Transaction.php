@@ -113,6 +113,10 @@ class Transaction extends \OxidEsales\Eshop\Core\Model\BaseModel {
 		return $this->version;
 	}
 
+	public function getEmailSent(){
+		return $this->getFieldData('pfcemailsent');
+	}
+
 	public function setOrderId($value){
 		$this->_setFieldData('oxorderid', $value);
 	}
@@ -139,6 +143,14 @@ class Transaction extends \OxidEsales\Eshop\Core\Model\BaseModel {
 
 	protected function setSdkTransaction($value){
 		$this->sdkTransaction = $value;
+	}
+
+	public function setEmailSent($value){
+		$this->_setFieldData('pfcemailsent', $value);
+	}
+
+	public function markEmailAsSent(){
+		$this->setEmailSent(true);
 	}
 
 	public function loadByOrder($orderId){
