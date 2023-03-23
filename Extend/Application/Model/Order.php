@@ -101,7 +101,7 @@ class Order extends Order_parent {
 		$currentState = substr($this->getFieldData('OXTRANSSTATUS'), strlen('POSTFINANCECHECKOUT_'));
 		$transaction = $this->getPostFinanceCheckoutTransaction();
 
-		if ($currentState === TransactionState::AUTHORIZED && !$transaction->getEmailSent()) {
+		if (!$transaction->getEmailSent()) {
 			return true;
 		}
 
