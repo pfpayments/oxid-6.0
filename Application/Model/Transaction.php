@@ -19,7 +19,7 @@ use PostFinanceCheckout\Sdk\Model\EntityQueryFilterType;
 use PostFinanceCheckout\Sdk\Model\Label;
 use PostFinanceCheckout\Sdk\Model\Refund;
 use PostFinanceCheckout\Sdk\Model\TransactionCompletion;
-use PostFinanceCheckout\Sdk\Model\TransactionLineItemUpdateRequest;
+use PostFinanceCheckout\Sdk\Model\TransactionLineItemVersionCreate;
 use PostFinanceCheckout\Sdk\Model\TransactionState;
 use PostFinanceCheckout\Sdk\Model\TransactionVoid;
 use PostFinanceCheckout\Sdk\Service\RefundService;
@@ -513,9 +513,9 @@ class Transaction extends \OxidEsales\Eshop\Core\Model\BaseModel {
 		}
 		$adapter = new BasketAdapter($order->getPostFinanceCheckoutBasket());
 		$adapter->getLineItemData();
-		$update = new TransactionLineItemUpdateRequest();
-		$update->setNewLineItems($adapter->getLineItemData());
-		$update->setTransactionId($this->getTransactionId());
+		$update = new TransactionLineItemVersionCreate();
+		$update->setLineItems($adapter->getLineItemData());
+		$update->setTransaction($this->getTransactionId());
 		TransactionService::instance()->updateLineItems($this->getSpaceId(), $update);
 		$this->pull();
 		PostFinanceCheckoutModule::log(Logger::DEBUG, "Complete update line items.");

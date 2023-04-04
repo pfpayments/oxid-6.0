@@ -14,12 +14,13 @@ namespace Pfc\PostFinanceCheckout\Core\Service;
 use Monolog\Logger;
 use PostFinanceCheckout\Sdk\Model\EntityQuery;
 use PostFinanceCheckout\Sdk\Model\TransactionCreate;
-use PostFinanceCheckout\Sdk\Model\TransactionLineItemUpdateRequest;
+use PostFinanceCheckout\Sdk\Model\TransactionLineItemVersionCreate;
 use PostFinanceCheckout\Sdk\Model\TransactionPending;
-use PostFinanceCheckout\Sdk\Service\TransactionInvoiceService;
 use Pfc\PostFinanceCheckout\Core\PostFinanceCheckoutModule;
 use \PostFinanceCheckout\Sdk\Service\TransactionService as SdkTransactionService;
 use \PostFinanceCheckout\Sdk\Service\TransactionIframeService;
+use PostFinanceCheckout\Sdk\Service\TransactionInvoiceService;
+use PostFinanceCheckout\Sdk\Service\TransactionLineItemVersionService;
 use \PostFinanceCheckout\Sdk\Service\TransactionPaymentPageService;
 
 /**
@@ -33,12 +34,20 @@ class TransactionService extends AbstractService {
 	private $invoiceService;
 	private $paymentPageService;
 	private $iframeService;
+	private $transactionLineItemVersionService;
 
 	protected function getService(){
 		if (!$this->service) {
 			$this->service = new SdkTransactionService(PostFinanceCheckoutModule::instance()->getApiClient());
 		}
 		return $this->service;
+	}
+
+	protected function getTransactionLineItemVersionService(){
+	    if (!$this->transactionLineItemVersionService) {
+		$this->transactionLineItemVersionService = new TransactionLineItemVersionService(PostFinanceCheckoutModule::instance()->getApiClient());
+	    }
+	    return $this->transactionLineItemVersionService;
 	}
 
 	/**
@@ -141,9 +150,18 @@ class TransactionService extends AbstractService {
 			return $this->getService()->update(PostFinanceCheckoutModule::settings()->getSpaceId(), $transaction);
 		}
 	}
-
-	public function updateLineItems($spaceId, TransactionLineItemUpdateRequest $updateRequest){
-		return $this->getService()->updateTransactionLineItems($spaceId, $updateRequest);
+	/**
+	* Create a version of line items
+	*
+	* @param string $spaceId
+	* @param \PostFinanceCheckout\Sdk\Model\TransactionLineItemVersionCreate $lineItemVersion
+	* @return \PostFinanceCheckout\Sdk\Model\TransactionLineItemVersion
+	* @throws \PostFinanceCheckout\Sdk\ApiException
+	* @throws \PostFinanceCheckout\Sdk\Http\ConnectionException
+	* @throws \PostFinanceCheckout\Sdk\VersioningException 
+	*/
+	public function updateLineItems($spaceId, TransactionLineItemVersionCreate $lineItemVersion){
+		return $this->getTransactionLineItemVersionService()->create($spaceId, $lineItemVersion);
 	}
 
 	/**

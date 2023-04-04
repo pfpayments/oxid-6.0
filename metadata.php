@@ -29,7 +29,7 @@ $aModule = array(
         'en' => 'PFC PostFinanceCheckout Module'
     ),
     'thumbnail' => 'out/pictures/picture.png',
-    'version' => '1.0.44',
+    'version' => '1.0.45',
     'author' => 'customweb GmbH',
     'url' => 'https://www.customweb.com',
     'email' => 'info@customweb.com',
