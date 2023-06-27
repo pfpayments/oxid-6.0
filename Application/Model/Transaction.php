@@ -175,6 +175,8 @@ class Transaction extends \OxidEsales\Eshop\Core\Model\BaseModel {
 			$transaction = oxNew(\Pfc\PostFinanceCheckout\Application\Model\Transaction::class);
 			/* @var $transaction \Pfc\PostFinanceCheckout\Application\Model\Transaction */
 			$transaction->create();
+		} else {
+			$transaction->updateFromSession();
 		}
 		return $transaction;
 	}
