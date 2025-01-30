@@ -185,6 +185,11 @@ class BasketAdapter implements ILineItemAdapter
             $lineItem->setUniqueId($id);
             $lineItem->setAmountIncludingTax($price->getBruttoPrice());
 
+            // Discount is transferred to PostFinanceCheckout as negative value.
+            if ($type === LineItemType::DISCOUNT) {
+                $lineItem->setAmountIncludingTax(- $price->getBruttoPrice());
+            }
+
             $tax = new TaxCreate();
             $tax->setRate($price->getVat());
             $tax->setTitle(PostFinanceCheckoutModule::instance()->translate('VAT'));
