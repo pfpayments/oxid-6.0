@@ -76,7 +76,6 @@ class TransactionInvoice extends AbstractOrderRelated
     {
         /* @var $entity \PostFinanceCheckout\Sdk\Model\TransactionInvoice */
         switch ($entity->getState()) {
-            case TransactionInvoiceState::NOT_APPLICABLE:
             case TransactionInvoiceState::PAID:
                 $order->setPostFinanceCheckoutPaid();
                 return true;

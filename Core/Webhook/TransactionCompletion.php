@@ -10,6 +10,7 @@
  */
 namespace Pfc\PostFinanceCheckout\Core\Webhook;
 
+use PostFinanceCheckout\Sdk\Model\TransactionState;
 use PostFinanceCheckout\Sdk\Model\TransactionCompletionState;
 use PostFinanceCheckout\Sdk\Service\TransactionCompletionService;
 use Pfc\PostFinanceCheckout\Application\Model\CompletionJob;
@@ -93,6 +94,12 @@ class TransactionCompletion extends AbstractOrderRelated
         }
         $order->getPostFinanceCheckoutTransaction()->pull();
         $order->setPostFinanceCheckoutState($order->getPostFinanceCheckoutTransaction()->getState());
+
+        // Twint and immediate payments. Marks order as authorized, sends confirmation email
+        $status = $order->getFieldData('oxtransstatus');
+        if ($status !== 'POSTFINANCECHECKOUT_' . TransactionState::AUTHORIZED) {
+            $order->PostFinanceCheckoutAuthorize();
+        }
     }
 
     /**

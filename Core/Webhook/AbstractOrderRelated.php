@@ -33,39 +33,21 @@ abstract class AbstractOrderRelated extends AbstractWebhook
         if ($request->getSpaceId() != PostFinanceCheckoutModule::settings()->getSpaceId()) {
             throw new \Exception("Received webhook with space id {$request->getSpaceId()} in store which is configured for space id " . PostFinanceCheckoutModule::settings()->getSpaceId());
         }
-        for($i = 0; $i <= self::OPTIMISTIC_RETRIES; $i++) {
-	        try {
-	            $entity = $this->loadEntity($request);
-	            $orderId = $this->getOrderId($entity);
-	            $order = $this->loadOrder($orderId);
-	            \OxidEsales\Eshop\Core\Registry::getLang()->setBaseLanguage($order->getOrderLanguage());
-	            
-	            if(!$order->getPostFinanceCheckoutTransaction() || !$order->getPostFinanceCheckoutTransaction()->getId()){
-	            	throw new \Exception("Transaction could not be loaded on order.");
-	            }
-	            
-	            if($this->processOrderRelatedInner($order, $entity)) {
-		            if(!$order->getPostFinanceCheckoutTransaction()->save() || !$order->save()) {
-		            	throw new \Exception('Unable to save order');
-		            }
-	            }
-	            
-	        }catch(OptimisticLockingException $e){
-	        	PostFinanceCheckoutModule::log(Logger::WARNING, "Optimistic locking query: " . $e->getQueryString());
-	        	PostFinanceCheckoutModule::rollback();
-	        	if($i === self::OPTIMISTIC_RETRIES) {
-	        		throw $e;
-	        	}
-	        	sleep(self::SECONDS_TO_WAIT);
-	        }
-	        catch (\Exception $e) {
-	            PostFinanceCheckoutModule::log(Logger::ERROR, $e->getMessage() . ' - ' . $e->getTraceAsString());
-	            PostFinanceCheckoutModule::rollback();
-	            if($e->getCode() !== self::NO_ORDER) {
-	            	throw $e;
-	            }
-        	}
-        }
+
+		$entity = $this->loadEntity($request);
+		$orderId = $this->getOrderId($entity);
+		$order = $this->loadOrder($orderId);
+		\OxidEsales\Eshop\Core\Registry::getLang()->setBaseLanguage($order->getOrderLanguage());
+
+		if(!$order->getPostFinanceCheckoutTransaction() || !$order->getPostFinanceCheckoutTransaction()->getId()){
+			throw new \Exception("Transaction could not be loaded on order.");
+		}
+
+		if($this->processOrderRelatedInner($order, $entity)) {
+			if(!$order->getPostFinanceCheckoutTransaction()->save() || !$order->save()) {
+				throw new \Exception('Unable to save order');
+			}
+		}
     }
 
 
