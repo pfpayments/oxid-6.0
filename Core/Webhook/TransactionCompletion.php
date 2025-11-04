@@ -94,6 +94,7 @@ class TransactionCompletion extends AbstractOrderRelated
         }
         $order->getPostFinanceCheckoutTransaction()->pull();
         $order->setPostFinanceCheckoutState($order->getPostFinanceCheckoutTransaction()->getState());
+        $order->setPostFinanceCheckoutPaid();
 
         // Twint and immediate payments. Marks order as authorized, sends confirmation email
         $status = $order->getFieldData('oxtransstatus');

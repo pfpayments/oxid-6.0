@@ -140,6 +140,11 @@ class Order extends Order_parent {
 	public function setPostFinanceCheckoutPaid(){
 		if (!$this->isPfcOrder()) {
 			PostFinanceCheckoutModule::log(Logger::WARNING,
+					"Order {$this->getId()} already has oxpaid set, skipping re-assignment.");
+			return;
+		}
+		if ($this->getFieldData('oxpaid') !== '0000-00-00 00:00:00') {
+			PostFinanceCheckoutModule::log(Logger::INFO,
 					"Attempted to call " . __METHOD__ . " on non-PostFinanceCheckout order {$this->getId()}, skipping.");
 			return;
 		}
