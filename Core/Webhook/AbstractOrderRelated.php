@@ -13,6 +13,7 @@ namespace Pfc\PostFinanceCheckout\Core\Webhook;
 use Monolog\Logger;
 use Pfc\PostFinanceCheckout\Core\PostFinanceCheckoutModule;
 use Pfc\PostFinanceCheckout\Core\Exception\OptimisticLockingException;
+use Pfc\PostFinanceCheckout\Core\Exception\OrderNotFoundException;
 
 /**
  * Abstract webhook processor for order related entities.
@@ -36,7 +37,18 @@ abstract class AbstractOrderRelated extends AbstractWebhook
 
 		$entity = $this->loadEntity($request);
 		$orderId = $this->getOrderId($entity);
-		$order = $this->loadOrder($orderId);
+        try {
+            $order = $this->loadOrder($orderId);
+        }
+        catch (OrderNotFoundException $e) {
+            if ($entity->getModelName() == 'Transaction' && ($entity->getState() == 'FAILED' || $entity->getState() == 'PENDING')) {
+                // For FAILED state, most likely the order was never created. So we just log and ignore.
+                PostFinanceCheckoutModule::log(Logger::INFO, "Ignoring failed webhook for non existing order with id $orderId.");
+                return;
+            }
+            PostFinanceCheckoutModule::log(Logger::ERROR, "Could not load order with id $orderId for webhook processing: " . $e->getMessage());
+            throw $e;
+        }
 		\OxidEsales\Eshop\Core\Registry::getLang()->setBaseLanguage($order->getOrderLanguage());
 
 		if(!$order->getPostFinanceCheckoutTransaction() || !$order->getPostFinanceCheckoutTransaction()->getId()){
@@ -58,13 +70,13 @@ abstract class AbstractOrderRelated extends AbstractWebhook
      */
     protected function loadOrder($orderId)
     {
-    	PostFinanceCheckoutModule::getUtilsObject()->resetInstanceCache(\OxidEsales\Eshop\Application\Model\Order::class);
+        PostFinanceCheckoutModule::getUtilsObject()->resetInstanceCache(\OxidEsales\Eshop\Application\Model\Order::class);
         $order = oxNew(\OxidEsales\Eshop\Application\Model\Order::class);
         /* @var $order \Pfc\PostFinanceCheckout\Extend\Application\Model\Order */
         if ($order->load($orderId) && $order->isPfcOrder()) {
             return $order;
         }
-        throw new \Exception("Could not load order by id $orderId.", self::NO_ORDER);
+        throw new OrderNotFoundException("Could not load order by id $orderId.", self::NO_ORDER);
     }
 
     /**
