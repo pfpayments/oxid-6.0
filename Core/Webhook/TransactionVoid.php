@@ -15,6 +15,7 @@ use Pfc\PostFinanceCheckout\Application\Model\VoidJob;
 use Pfc\PostFinanceCheckout\Core\PostFinanceCheckoutModule;
 use Pfc\PostFinanceCheckout\Extend\Application\Model\Order;
 use PostFinanceCheckout\Sdk\Model\TransactionVoidState;
+use PostFinanceCheckout\Sdk\Model\TransactionState;
 use Monolog\Logger;
 
 /**
@@ -52,31 +53,28 @@ class TransactionVoid extends AbstractOrderRelated
     protected function processOrderRelatedInner(\OxidEsales\Eshop\Application\Model\Order $order, $void)
     {
         /* @var \PostFinanceCheckout\Sdk\Model\TransactionVoid $void */
-        if ($this->apply($void, $order)) {
-            switch ($void->getState()) {
-                case TransactionVoidState::SUCCESSFUL:
-                    $order->cancelOrder();
-                    return true;
-                default:
-                    // Nothing to do.
-                    break;
-            }
+        switch ($void->getState()) {
+            case TransactionVoidState::SUCCESSFUL:
+                $this->success($void, $order);
+                return true;
+            default:
+                // Nothing to do.
+                break;
         }
         return false;
     }
 
-    protected function apply(\PostFinanceCheckout\Sdk\Model\TransactionVoid $void, Order $order)
+    protected function success(\PostFinanceCheckout\Sdk\Model\TransactionVoid $void, Order $order)
     {
     	$job = oxNew(\Pfc\PostFinanceCheckout\Application\Model\VoidJob::class);
         /* @var $job \Pfc\PostFinanceCheckout\Application\Model\VoidJob */
         if ($job->loadByJob($void->getId(), $void->getLinkedSpaceId()) || $job->loadByOrder($order->getId())) {
-            if ($job->getState() !== $void->getState()) {
-                $job->apply($void);
-                return true;
-            }
+            $job->apply($void);
         } else {
             PostFinanceCheckoutModule::log(Logger::WARNING, "Unknown void received, was not processed: $void.");
         }
-        return false;
+        $order->resetCoupon();
+        $order->setPostFinanceCheckoutState(TransactionState::VOIDED);
+        $order->cancelOrder();
     }
 }

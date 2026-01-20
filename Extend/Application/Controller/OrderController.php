@@ -17,6 +17,7 @@ use PostFinanceCheckout\Sdk\Model\TransactionState;
 use Pfc\PostFinanceCheckout\Application\Model\Transaction;
 use Pfc\PostFinanceCheckout\Core\Service\TransactionService;
 use Pfc\PostFinanceCheckout\Core\PostFinanceCheckoutModule;
+use Pfc\PostFinanceCheckout\Core\Exception\OptimisticLockingException;
 
 /**
  * Class BasketItem.
@@ -32,9 +33,19 @@ class OrderController extends OrderController_parent
         if ($this->getIsOrderStep()) {
             try {
                 $transaction = Transaction::loadPendingFromSession($this->getSession());
-                $transaction->updateFromSession();
+                if ($transaction) {
+                    $transaction->updateFromSession();
+                }
+            } catch (\Pfc\PostFinanceCheckout\Core\Exception\OptimisticLockingException $e) {
+                if (isset($transaction) && $transaction) {
+                    try {
+                        $transaction->pull();
+                    } catch (\Exception $pullE) {
+                        PostFinanceCheckoutModule::log(Logger::DEBUG, "OrderController: Failed to pull transaction.");
+                    }
+                }
             } catch (\Exception $e) {
-                PostFinanceCheckoutModule::log(Logger::ERROR, "Could not update transaction: {$e->getMessage()}.");
+                PostFinanceCheckoutModule::log(Logger::ERROR, "Could not update transaction: {$e}.");
             }
         }
     }

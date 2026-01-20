@@ -9,7 +9,6 @@
  * @license http://www.apache.org/licenses/LICENSE-2.0  Apache Software License (ASL 2.0)
  */
 
-
 namespace Pfc\PostFinanceCheckout\Extend\Application\Controller;
 
 use Pfc\PostFinanceCheckout\Core\PostFinanceCheckoutModule;
@@ -17,46 +16,66 @@ use Pfc\PostFinanceCheckout\Core\PostFinanceCheckoutModule;
 /**
  * Class used to include tracking device id on basket.
  *
- * Class BasketController.
  * Extends \OxidEsales\Eshop\Application\Controller\BasketController.
  *
  * @mixin \OxidEsales\Eshop\Application\Controller\BasketController
  */
 class BasketController extends BasketController_parent
 {
+    /**
+     * Keep the original template return value to preserve OXID inheritance chain.
+     *
+     * @return string
+     */
     public function render()
     {
-        parent::render();
+        $template = parent::render();
+        $deviceId = $this->ensurePostFinanceCheckoutDeviceCookie();
+        $this->_aViewData['PostFinanceCheckoutDeviceScript'] = $this->getPostFinanceCheckoutDeviceUrl($deviceId);
 
-        $this->setPostFinanceCheckoutDeviceCookie();
-        $this->_aViewData['PostFinanceCheckoutDeviceScript'] = $this->getPostFinanceCheckoutDeviceUrl();
-
-        return 'pfcPostFinanceCheckoutCheckoutBasket.tpl';
+        return $template;
     }
 
-    private function getPostFinanceCheckoutDeviceUrl()
+    /**
+     * Build device script URL.
+     *
+     * @param string $deviceId
+     * @return string
+     */
+    private function getPostFinanceCheckoutDeviceUrl($deviceId)
     {
-        $script = PostFinanceCheckoutModule::settings()->getBaseUrl();
-        $script .= '/s/[spaceId]/payment/device.js?sessionIdentifier=[UniqueSessionIdentifier]';
+        $baseUrl = (string) PostFinanceCheckoutModule::settings()->getBaseUrl();
+        $spaceId = (string) PostFinanceCheckoutModule::settings()->getSpaceId();
+        $script = rtrim($baseUrl, '/')
+            . '/s/[spaceId]/payment/device.js?sessionIdentifier=[UniqueSessionIdentifier]';
 
-        $script = str_replace(array(
-            '[spaceId]',
-            '[UniqueSessionIdentifier]'
-        ), array(
-            PostFinanceCheckoutModule::settings()->getSpaceId(),
-            $_COOKIE['PostFinanceCheckout_device_id']
-        ), $script);
+        $script = str_replace(
+            array('[spaceId]', '[UniqueSessionIdentifier]'),
+            array($spaceId, rawurlencode((string) $deviceId)),
+            $script
+        );
 
         return $script;
     }
 
-    private function setPostFinanceCheckoutDeviceCookie()
+    /**
+     * Ensure device cookie exists and return its value.
+     *
+     * @return string
+     */
+    private function ensurePostFinanceCheckoutDeviceCookie()
     {
-        if (isset($_COOKIE['PostFinanceCheckout_device_id'])) {
-            $value = $_COOKIE['PostFinanceCheckout_device_id'];
-        } else {
-        	$_COOKIE['PostFinanceCheckout_device_id'] = $value = PostFinanceCheckoutModule::getUtilsObject()->generateUId();
-        }
-        setcookie('PostFinanceCheckout_device_id', $value, time() + 365 * 24 * 60 * 60, '/');
+        $cookieName = 'PostFinanceCheckout_device_id';
+
+        $value = isset($_COOKIE[$cookieName]) && is_string($_COOKIE[$cookieName]) && $_COOKIE[$cookieName] !== ''
+            ? $_COOKIE[$cookieName]
+            : (string) PostFinanceCheckoutModule::getUtilsObject()->generateUId();
+
+        $expire = time() + 365 * 24 * 60 * 60;
+
+        setcookie($cookieName, $value, $expire, '/');
+        $_COOKIE[$cookieName] = $value;
+
+        return $value;
     }
 }

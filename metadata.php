@@ -29,7 +29,7 @@ $aModule = array(
         'en' => 'PFC PostFinanceCheckout Module'
     ),
     'thumbnail' => 'out/pictures/picture.png',
-    'version' => '1.0.53',
+    'version' => '1.0.54',
     'author' => 'customweb GmbH',
     'url' => 'https://www.customweb.com',
     'email' => 'info@customweb.com',
@@ -54,7 +54,6 @@ $aModule = array(
         'pfc_postFinanceCheckout_Alert' => Pfc\PostFinanceCheckout\Application\Controller\Admin\Alert::class
     ),
     'templates' => array(
-        'pfcPostFinanceCheckoutCheckoutBasket.tpl' => 'pfc/PostFinanceCheckout/Application/views/pages/pfcPostFinanceCheckoutCheckoutBasket.tpl',
         'pfcPostFinanceCheckoutCron.tpl' => 'pfc/PostFinanceCheckout/Application/views/pages/pfcPostFinanceCheckoutCron.tpl',
         'pfcPostFinanceCheckoutError.tpl' => 'pfc/PostFinanceCheckout/Application/views/pages/pfcPostFinanceCheckoutError.tpl',
         'pfcPostFinanceCheckoutTransaction.tpl' => 'pfc/PostFinanceCheckout/Application/views/admin/tpl/pfcPostFinanceCheckoutTransaction.tpl',
@@ -62,6 +61,11 @@ $aModule = array(
         'pfcPostFinanceCheckoutOrderList.tpl' => 'pfc/PostFinanceCheckout/Application/views/admin/tpl/pfcPostFinanceCheckoutOrderList.tpl',
     ),
     'blocks' => array(
+        array(
+            'template' => 'page/checkout/basket.tpl',
+            'block'    => 'checkout_basket_main',
+            'file'     => 'Application/views/blocks/pfcPostFinanceCheckout_device_script.tpl',
+        ),
         array(
             'template' => 'page/checkout/order.tpl',
             'block' => 'shippingAndPayment',
