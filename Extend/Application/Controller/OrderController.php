@@ -18,6 +18,7 @@ use Pfc\PostFinanceCheckout\Application\Model\Transaction;
 use Pfc\PostFinanceCheckout\Core\Service\TransactionService;
 use Pfc\PostFinanceCheckout\Core\PostFinanceCheckoutModule;
 use Pfc\PostFinanceCheckout\Core\Exception\OptimisticLockingException;
+use Pfc\PostFinanceCheckout\Core\Settings\IntegrationMode;
 
 /**
  * Class BasketItem.
@@ -164,5 +165,10 @@ class OrderController extends OrderController_parent
             PostFinanceCheckoutModule::log(Logger::ERROR, $e->getMessage(), array($this, $e));
         }
         return '';
+    }
+
+    public function isPostFinanceCheckoutIFrameMode()
+    {
+        return PostFinanceCheckoutModule::settings()->getIntegrationMode() === IntegrationMode::IFRAME;
     }
 }

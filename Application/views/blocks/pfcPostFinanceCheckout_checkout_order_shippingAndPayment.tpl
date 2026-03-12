@@ -1,5 +1,5 @@
 [{$smarty.block.parent}]
-[{if ($oView->isPostFinanceCheckoutTransaction()) }]
+[{if ($oView->isPostFinanceCheckoutTransaction() && $oView->isPostFinanceCheckoutIFrameMode()) }]
 <div class="panel panel-default" id="PostFinanceCheckout-payment-information">
 	<div class="panel-heading">
 		<h3 class="panel-title section">[{oxmultilang ident="PAYMENT_INFORMATION"}]</h3>

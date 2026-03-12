@@ -22,6 +22,7 @@ use \PostFinanceCheckout\Sdk\Service\TransactionIframeService;
 use PostFinanceCheckout\Sdk\Service\TransactionInvoiceService;
 use PostFinanceCheckout\Sdk\Service\TransactionLineItemVersionService;
 use \PostFinanceCheckout\Sdk\Service\TransactionPaymentPageService;
+use Pfc\PostFinanceCheckout\Core\Settings\IntegrationMode;
 
 /**
  * Class TransactionService
@@ -172,6 +173,12 @@ class TransactionService extends AbstractService {
 	 * @throws \PostFinanceCheckout\Sdk\ApiException
 	 */
 	public function getJavascriptUrl($transactionId, $spaceId){
-		return $this->getIframeService()->javascriptUrl($spaceId, $transactionId);
+		$jsUrl = '';
+		switch (PostFinanceCheckoutModule::settings()->getIntegrationMode()) {
+			case IntegrationMode::IFRAME:
+				$jsUrl = $this->getIframeService()->javascriptUrl($spaceId, $transactionId);
+				break;
+		}
+		return $jsUrl;
 	}
 }
