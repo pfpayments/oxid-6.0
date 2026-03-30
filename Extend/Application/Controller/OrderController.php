@@ -142,7 +142,7 @@ class OrderController extends OrderController_parent
                 }
             }
         } catch (\Exception $e) {
-        	PostFinanceCheckoutModule::getUtilsView()->addErrorToDisplay($e);
+        	PostFinanceCheckoutModule::getUtilsView()->addErrorToDisplay($e->getMessage());
         }
     }
     
