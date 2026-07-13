@@ -56,14 +56,18 @@ class ModuleConfiguration extends ModuleConfiguration_parent
 
                 $oldUrl = PostFinanceCheckoutModule::settings()->getWebhookUrl();
                 $newUrl = PostFinanceCheckoutModule::instance()->createWebhookUrl();
+                $webhookService = new WebhookService();
+                if ($oldUrl !== $newUrl && !empty($oldUrl)) {
+                    $webhookService->uninstall(PostFinanceCheckoutModule::settings()->getSpaceId(), $oldUrl);
+                }
+                // install() is idempotent, so it is always called to ensure the webhook url
+                // and listeners exist in the currently configured space (e.g. after a space change).
+                $webhookService->install(PostFinanceCheckoutModule::settings()->getSpaceId(), $newUrl);
                 if ($oldUrl !== $newUrl) {
-                    $webhookService = new WebhookService();
-                    $webhookService->uninstall(PostFinanceCheckoutModule::settings()->getSpaceId(), $oldUrl);;
-                    $webhookService->install(PostFinanceCheckoutModule::settings()->getSpaceId(), $newUrl);
                     PostFinanceCheckoutModule::settings()->setWebhookUrl($newUrl);
                     PostFinanceCheckoutModule::addMessage(PostFinanceCheckoutModule::instance()->translate("Webhook URL updated successfully."));
                 }
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 PostFinanceCheckoutModule::log(Logger::ERROR, "Unable to synchronize settings: {$e->getMessage()}.");
                 PostFinanceCheckoutModule::getUtilsView()->addErrorToDisplay($e->getMessage());
             }

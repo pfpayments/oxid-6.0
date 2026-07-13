@@ -81,7 +81,5 @@ CREATE TABLE IF NOT EXISTS `pfcPostFinanceCheckout_alert` (
   PRIMARY KEY (`PFCKEY`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-INSERT INTO `pfcPostFinanceCheckout_alert` (`PFCKEY`, `PFCFUNC`, `PFCTARGET`, `PFCCOUNT`) VALUES ('manual_task', 'manualtask', '_parent', 0);
-
-SET SQL_MODE='ALLOW_INVALID_DATES';
-CREATE INDEX idx_pfc_oxorder_oxtransstatus ON `oxorder` (`OXTRANSSTATUS`);
+INSERT INTO `pfcPostFinanceCheckout_alert` (`PFCKEY`, `PFCFUNC`, `PFCTARGET`, `PFCCOUNT`) VALUES ('manual_task', 'manualtask', '_parent', 0)
+ON DUPLICATE KEY UPDATE `PFCKEY` = `PFCKEY`;
